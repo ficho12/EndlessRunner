@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                Debug.Log("Encontre enemigo");
+                //Debug.Log("Encontre enemigo");
 
             }
 
