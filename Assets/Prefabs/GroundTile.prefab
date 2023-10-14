@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 8897716693498213030}
   - component: {fileID: 1104978390836001386}
   - component: {fileID: 1294561152445305106}
+  - component: {fileID: 5087872070208258753}
+  - component: {fileID: 6781899953462375756}
   m_Layer: 0
   m_Name: GroundTile
   m_TagString: Untagged
@@ -72,6 +74,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 6020359598805689734, guid: c1fae08c556bd4144bd2d2dfc3c285ca, type: 3}
+--- !u!65 &5087872070208258753
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986766721719789802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.29214716, y: 4.3278375, z: 10.036103}
+  m_Center: {x: 5.1323605, y: 1.663919, z: 4.999992}
+--- !u!65 &6781899953462375756
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 986766721719789802}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.36189413, y: 4.3278375, z: 10.036103}
+  m_Center: {x: -5.185705, y: 1.663919, z: 4.999992}
 --- !u!1 &3660245880695656362
 GameObject:
   m_ObjectHideFlags: 0
