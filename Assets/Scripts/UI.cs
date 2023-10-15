@@ -11,6 +11,8 @@ public class UI : MonoBehaviour
     public TMP_Text timeText;
     public TMP_Text scoreText;
     public int score = 0;
+    float timer = 0.0f;
+    int seconds;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,9 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        timer += Time.deltaTime;
+        seconds = (int)timer % 60;
+        timeText.text = "Time: " + seconds.ToString() + " s";
     }
 
     public void addScore()
