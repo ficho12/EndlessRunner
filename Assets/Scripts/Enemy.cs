@@ -14,12 +14,18 @@ public class Enemy : MonoBehaviour
     public float nextSpawnTime = 0f;
 
     private bool isPlayerAlive = true;
-    private int score = 0;
+    //private int score = 0;
     PlayerMovement playerMovement;
+
+    GameObject Canvas;
+    UI scriptUI;
+    private bool trig = false;
 
     void Start()
     {
         playerMovement = GameObject.FindObjectOfType<PlayerMovement>();
+        Canvas = GameObject.FindGameObjectWithTag("Canvas");
+        scriptUI = Canvas.GetComponent<UI>();
     }
 
     void Update()
@@ -85,14 +91,25 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Enemy"))
+    //    {
+    //        // El jugador ha esquivado un enemigo y gana un punto
+    //        score++;
+    //        Debug.Log("Puntos: " + score);
+    //        Destroy(other.gameObject); // Elimina el enemigo
+    //    }
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Player") && (scriptUI != null) && (trig == false))
         {
-            // El jugador ha esquivado un enemigo y gana un punto
-            score++;
-            Debug.Log("Puntos: " + score);
-            Destroy(other.gameObject); // Elimina el enemigo
+            scriptUI.addScore();
+            Debug.Log("OnCollisionEnter addScore");
+            trig = true;
+            Invoke("SelfDestruct", 3);
         }
     }
 
@@ -100,7 +117,11 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.name.Equals("Player"))
             playerMovement.Die();        // Kill the player
-
-
     }
+
+    public void SelfDestruct()
+    {
+        Destroy(this);
+    }
+
 }

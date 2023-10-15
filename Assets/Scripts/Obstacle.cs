@@ -6,7 +6,6 @@ public class Obstacle : MonoBehaviour
 {
     GameObject Canvas;
     UI scriptUI;
-    private bool trig = false;
     private bool coll = false;
     // Start is called before the first frame update
     void Start()
@@ -27,12 +26,16 @@ public class Obstacle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && (scriptUI != null) && (trig == false))
-        {
-            scriptUI.addScore();
-            Debug.Log("OnCollisionEnter addScore");
-            trig = true;
-        }
-        
+        scriptUI.changeUItoEndLevel();
+
+        //if (other.gameObject.CompareTag("Player") && (scriptUI != null) && (trig == false))
+        //{
+        //    scriptUI.addScore();
+        //    Debug.Log("OnCollisionEnter addScore");
+        //    trig = true;
+        //    Invoke("SelfDestruct", 3);
+        //}
     }
+
+
 }

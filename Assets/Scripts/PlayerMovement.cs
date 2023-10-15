@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     //bool alive = true;
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
+    public UI UI;
 
     private void Awake()
     {
@@ -42,13 +43,14 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
+        UI.changeUItoEndLevel();
         //alive = false;
         // Restart the game
-        Invoke("Restart", 2);
-    }
-
-    void Restart()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //Invoke("Restart", 2);
     }
 }
+//    void Restart()
+//    {
+//        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+//    }
+//}
