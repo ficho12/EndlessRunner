@@ -1,6 +1,9 @@
 using System.Collections.Specialized;
 using UnityEngine;
 
+/// <summary>
+/// Clase que se encarga de generar el suelo del juego de manera infinita.
+/// </summary>
 public class GroundSpawner : MonoBehaviour
 {
     public GameObject groundTile;
@@ -9,6 +12,9 @@ public class GroundSpawner : MonoBehaviour
     private Vector3 nextSpawnPoint;
     private GameObject temp;
 
+    /// <summary>
+    /// MÃ©todo que genera una nueva casilla de suelo y actualiza la posiciÃ³n de la siguiente casilla a generar.
+    /// </summary>
     public void SpawnTile()
     {
         temp = Instantiate(groundTile, nextSpawnPoint, Quaternion.identity);
@@ -16,7 +22,7 @@ public class GroundSpawner : MonoBehaviour
     }
 
     /*
-     * Se Spawnean un número predefinido de casillas para que de la sensación de infinidad. Se bloquea el spawneo de enemigos en todas menos la última casilla (canSpawnEnemy = false)
+     * Se Spawnean un nÃºmero predefinido de casillas para que de la sensaciÃ³n de infinidad. Se bloquea el spawneo de enemigos en todas menos la Ãºltima casilla (canSpawnEnemy = false)
      */
     void Start()
     {
@@ -26,6 +32,5 @@ public class GroundSpawner : MonoBehaviour
             temp.GetComponent<GroundTile>().canSpawnEnemy = false;
         }
         temp.GetComponent<GroundTile>().canSpawnEnemy = true;
-
     }
 }

@@ -29,9 +29,9 @@ public class Enemy : MonoBehaviour
         amplitude = Random.Range(2f, 30f); // Amplitud aleatoria
     }
 
-    /*
-     * Se crea el movimiento del enemigo de forma sinusoidal, se le aplica la velocidad a su RigidBody
-     */
+    /// <summary>
+    /// Actualiza la velocidad del enemigo en cada fixed update para que se mueva en una onda sinusoidal, aplicando la velocidad a su RigidBody.
+    /// </summary>
     private void FixedUpdate()
     {
         Vector3 velocity = rb.velocity;
@@ -40,28 +40,31 @@ public class Enemy : MonoBehaviour
         rb.velocity = velocity;
     }
 
-    /*
-     * Si el jugador ha superado al enemigo sin chocar se aumenta un punto scriptUI.addScore()
-     */
-
+    /// <summary>
+    /// MÃ©todo que se llama cuando un objeto sale del trigger del enemigo. Si el objeto que sale es el jugador, se suma un punto al score y se destruye el enemigo despuÃ©s de 3 segundos.
+    /// </summary>
+    /// <param name="other">Collider del objeto que sale del trigger.</param>
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))  // Comprobación de la colisión
+        if (other.gameObject.CompareTag("Player"))  // Comprobaciï¿½n de la colisiï¿½n
         {
-            if((scriptUI != null) && (trig == false))   // Para evitar que entre más de una vez se activa un boolean trig
+            if((scriptUI != null) && (trig == false))   // Para evitar que entre mï¿½s de una vez se activa un boolean trig
             {
                 scriptUI.AddScore();
                 Debug.Log("OnCollisionEnter addScore");
                 trig = true;
-                Invoke("SelfDestruct", 3);  // En 3 segundos se llama a la función que destruye el enemigo. Se tiene 3 segundos para que el Enemigo se encuentre fuera de pantalla en ese momento.
-                // Se podría crear una variable pública para ajustar el tiempo.
+                Invoke("SelfDestruct", 3);  // En 3 segundos se llama a la funciï¿½n que destruye el enemigo. Se tiene 3 segundos para que el Enemigo se encuentre fuera de pantalla en ese momento.
+                // Se podrï¿½a crear una variable pï¿½blica para ajustar el tiempo.
             }
         }
     }
 
-    /*
-     * Si colisiona con el jugador se realiza el proceso de finalización de partida scriptUI.changeUItoEndLevel()
-     */
+    /// <summary>
+    /// MÃ©todo que se ejecuta cuando el objeto colisiona con otro objeto.
+    /// Si el objeto colisionado es el jugador, el objeto UI no es nulo y la colisiÃ³n no ha ocurrido antes,
+    /// se cambia la interfaz de usuario a la pantalla de fin de nivel.
+    /// </summary>
+    /// <param name="collision">InformaciÃ³n sobre la colisiÃ³n.</param>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name.Equals("Player") && (scriptUI != null) && (coll == false))

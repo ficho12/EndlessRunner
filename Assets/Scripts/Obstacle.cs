@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Clase que representa un obstÃ¡culo en el juego.
+/// </summary>
 public class Obstacle : MonoBehaviour
 {
     private GameObject Canvas;
@@ -15,7 +18,7 @@ public class Obstacle : MonoBehaviour
     }
 
     /*
-     * Si el jugador se choca con el obstáculo se restan puntos scriptUI.SubstractScore()
+     * Si el jugador se choca con el obstï¿½culo se restan puntos scriptUI.SubstractScore()
      */
     private void OnCollisionEnter(Collision collision)
     {
