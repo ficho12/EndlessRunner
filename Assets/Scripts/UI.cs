@@ -48,13 +48,13 @@ public class UI : MonoBehaviour
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(false);
         transform.GetChild(2).gameObject.SetActive(true);
-        transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = "Score\n" + score.ToString();
         transform.GetChild(3).gameObject.SetActive(true);
-        transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = "Time\n" + seconds.ToString() + " s";
         transform.GetChild(4).gameObject.SetActive(true);
         transform.GetChild(5).gameObject.SetActive(true);
         transform.GetChild(6).gameObject.SetActive(true);
         Time.timeScale = 0; //Pause
+        transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = "Time\n" + seconds.ToString() + " s";
+        transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = "Score\n" + score.ToString();
     }
 
     public void restart()
