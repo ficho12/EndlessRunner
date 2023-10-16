@@ -6,122 +6,128 @@ public class Enemy : MonoBehaviour
 {
     public GameObject player;
     public GameObject enemyPrefab;
-    public float minAmplitude = 1f;
-    public float maxAmplitude = 3f;
-    public float enemySpeed = 5f;
-    public float minSpawnFrequency = 1f;
-    public float maxSpawnFrequency = 5f;
-    public float nextSpawnTime = 0f;
-
-    private bool isPlayerAlive = true;
-    //private int score = 0;
+    private GroundSpawner groundSpawner;
     PlayerMovement playerMovement;
 
     GameObject Canvas;
     UI scriptUI;
     private bool trig = false;
 
+    public float speed = 5.0f; // Velocidad relativa a la pista
+    public float frequency;
+    public float amplitude;
+    private bool isMovingRight;
+    public float spawnInterval;
+    private float timeSinceLastSpawn;
+    private Rigidbody rb;
+    private bool coll = false;
+
+
     void Start()
     {
+        rb = GetComponent<Rigidbody>();
+        //groundSpawner = GameObject.FindGameObjectWithTag("GroundSpawner");
+        //groundSpawner = GameObject.FindAnyObjectByType<GroundSpawner>();
         playerMovement = GameObject.FindObjectOfType<PlayerMovement>();
-        Canvas = GameObject.FindGameObjectWithTag("Canvas");
-        scriptUI = Canvas.GetComponent<UI>();
+        //Canvas = GameObject.FindGameObjectWithTag("Canvas");
+        //scriptUI = Canvas.GetComponent<UI>();
+        player = GameObject.FindWithTag("Player"); // Asegúrate de que el jugador tenga el tag "Player"
+        isMovingRight = Random.Range(0, 2) == 0; // Determina la dirección inicial aleatoriamente
+        frequency = Random.Range(0.1f, 0.2f); // Frecuencia aleatoria
+        amplitude = Random.Range(0.1f, 0.2f); // Amplitud aleatoria
+        spawnInterval = Random.Range(2.0f, 5.0f); // Intervalo de aparición aleatorio
+        timeSinceLastSpawn = 0;
     }
 
     void Update()
     {
-        if (isPlayerAlive)
+
+        if (player == null)
         {
-            // Controla la generación de enemigos
-            //if (Time.time >= nextSpawnTime)
-            GameObject.Find("Enemy");
-            if (FindObjectsByType(enemyPrefab.GetType(), FindObjectsSortMode.None ) == null)
-            {
-                Debug.Log("No encontre enemigo");
-                SpawnEnemy();
-
-                //nextSpawnTime = Time.time + Random.Range(minSpawnFrequency, maxSpawnFrequency);
-            }
-            else
-            {
-                //Debug.Log("Encontre enemigo");
-
-            }
-
-            // Controla la colisión entre el jugador y los enemigos
-            Collider playerCollider = player.GetComponent<Collider>();
-            Collider[] hitColliders = Physics.OverlapSphere(player.transform.position, 0.5f);
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.gameObject.CompareTag("Enemy"))
-                {
-                    // El jugador ha chocado con un enemigo
-                    isPlayerAlive = false;
-                    Debug.Log("Game Over");
-                }
-            }
+            return; // Si el jugador ya no existe, no se mueve
         }
-    }
 
-    void SpawnEnemy()
-    {
-        float amplitude = Random.Range(minAmplitude, maxAmplitude);
-        float frequency = Random.Range(0.1f, 1.0f);
+        // Mover el enemigo hacia el jugador en dirección contraria
+        Vector3 movement = Vector3.back * speed * Time.deltaTime;
+        rb.velocity = movement;
 
-        float startX = Random.Range(-amplitude, amplitude);
-        Vector3 spawnPosition = new Vector3(startX, 1, player.transform.position.z + 20f);
-
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
-        Rigidbody enemyRigidbody = newEnemy.GetComponent<Rigidbody>();
-        enemyRigidbody.velocity = new Vector3(0, 0, -enemySpeed);
-
-        StartCoroutine(MoveSinusoidal(newEnemy.transform, amplitude, frequency));
-    }
-
-    IEnumerator MoveSinusoidal(Transform enemyTransform, float amplitude, float frequency)
-    {
-        Vector3 originalPosition = enemyTransform.position;
-
-        while (enemyTransform != null)
+        // Mover el enemigo de lado a lado utilizando una ecuación senoidal
+        float offsetX = amplitude * Mathf.Sin(frequency * Time.time);
+        if (isMovingRight)
         {
-            float z = originalPosition.z + Mathf.Sin(Time.time * frequency) * amplitude;
-            enemyTransform.position = new Vector3(enemyTransform.position.x, enemyTransform.position.y, z);
-
-            yield return null;
+            rb.position += new Vector3(offsetX, 0, 0);
         }
-    }
+        else
+        {
+            rb.position -= new Vector3(offsetX, 0, 0);
+        }
 
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.CompareTag("Enemy"))
-    //    {
-    //        // El jugador ha esquivado un enemigo y gana un punto
-    //        score++;
-    //        Debug.Log("Puntos: " + score);
-    //        Destroy(other.gameObject); // Elimina el enemigo
-    //    }
-    //}
+        //// Mover el enemigo hacia el jugador en dirección contraria
+        //Vector3 movement = Vector3.back * speed * Time.deltaTime;
+        //transform.Translate(movement);
+
+        //// Mover el enemigo de lado a lado utilizando una ecuación senoidal
+        //float offsetX = amplitude * Mathf.Sin(frequency * Time.time);
+        //if (isMovingRight)
+        //{
+        //    transform.position += new Vector3(offsetX, 0, 0);
+        //}
+        //else
+        //{
+        //    transform.position -= new Vector3(offsetX, 0, 0);
+        //}
+
+        //// Control de aparición de enemigos
+        //timeSinceLastSpawn += Time.deltaTime;
+        //if (timeSinceLastSpawn >= spawnInterval)
+        //{
+        //    // Reiniciar el contador y cambiar la dirección de movimiento
+        //    timeSinceLastSpawn = 0;
+        //    isMovingRight = !isMovingRight;
+        //}
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && (scriptUI != null) && (trig == false))
+        if (other.gameObject.CompareTag("Player"))
         {
-            scriptUI.addScore();
-            Debug.Log("OnCollisionEnter addScore");
-            trig = true;
-            Invoke("SelfDestruct", 3);
+            if((scriptUI != null) && (trig == false))
+            {
+                scriptUI.addScore();
+                Debug.Log("OnCollisionEnter addScore");
+                trig = true;
+                Invoke("SelfDestruct", 3);
+            }
         }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name.Equals("Player"))
-            playerMovement.Die();        // Kill the player
+        if (collision.gameObject.name.Equals("Player") && (scriptUI != null) && (coll == false))
+        {
+            scriptUI.changeUItoEndLevel();
+            coll = true;
+        }
+
+
+        //    playerMovement.Die();        // Kill the player
     }
 
     public void SelfDestruct()
     {
         Destroy(this);
+    }
+
+    private void OnDestroy()
+    {
+        groundSpawner.enemySpawned = false;
+    }
+
+    public void PopulateRefs(GameObject Canvas,UI scriptUI, GroundSpawner gs)
+    {
+        this.Canvas = Canvas;
+        this.scriptUI = scriptUI;
+        this.groundSpawner = gs;
     }
 
 }

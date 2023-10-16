@@ -26,7 +26,7 @@ public class Obstacle : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        scriptUI.changeUItoEndLevel();
+        //scriptUI.changeUItoEndLevel();
 
         //if (other.gameObject.CompareTag("Player") && (scriptUI != null) && (trig == false))
         //{

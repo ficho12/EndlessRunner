@@ -76,6 +76,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obstaclePrefab: {fileID: 6020359598805689734, guid: c1fae08c556bd4144bd2d2dfc3c285ca, type: 3}
+  enemyPrefab: {fileID: 5397132111415439339, guid: 61409c7b40e530d4bad70a22db16d2f8, type: 3}
+  canSpawnEnemy: 1
 --- !u!65 &5087872070208258753
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -570,9 +570,8 @@ GameObject:
   m_Component:
   - component: {fileID: 633132993}
   - component: {fileID: 633132992}
-  - component: {fileID: 633132994}
   m_Layer: 0
-  m_Name: GroundSpanwer
+  m_Name: GroundSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,6 +590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundTile: {fileID: 986766721719789802, guid: 0ca30a9e669093b4894d17dda2f6d237, type: 3}
+  enemySpawned: 0
 --- !u!4 &633132993
 Transform:
   m_ObjectHideFlags: 0
@@ -606,26 +606,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &633132994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 633132991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 225167705e6172f46b6010b3f29e21b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 505342229}
-  enemyPrefab: {fileID: 5397132111415439339, guid: 61409c7b40e530d4bad70a22db16d2f8, type: 3}
-  minAmplitude: 1
-  maxAmplitude: 3
-  enemySpeed: 5
-  minSpawnFrequency: 1
-  maxSpawnFrequency: 5
-  nextSpawnTime: 0
 --- !u!1 &655867844
 GameObject:
   m_ObjectHideFlags: 0
