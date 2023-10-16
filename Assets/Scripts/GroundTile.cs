@@ -16,8 +16,9 @@ public class GroundTile : MonoBehaviour
         Canvas = GameObject.FindGameObjectWithTag("Canvas");
         scriptUI = Canvas.GetComponent<UI>();
         groundSpawner = GameObject.FindAnyObjectByType<GroundSpawner>();
-        SpawnObstacle();
-        if (!groundSpawner.enemySpawned && Random.Range(0, 5).Equals(0) && canSpawnEnemy)
+        //if(Random.Range(0, 5).Equals(0))
+            SpawnObstacle();
+        if (!groundSpawner.enemySpawned && canSpawnEnemy)  // && Random.Range(0, 5).Equals(0)
             SpawnEnemy();
 
 

@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     private GroundSpawner groundSpawner;
     PlayerMovement playerMovement;
 
+    float sinCenterX;
+
     GameObject Canvas;
     UI scriptUI;
     private bool trig = false;
@@ -18,13 +20,14 @@ public class Enemy : MonoBehaviour
     public float amplitude;
     private bool isMovingRight;
     public float spawnInterval;
-    private float timeSinceLastSpawn;
+    //private float timeSinceLastSpawn;
     private Rigidbody rb;
     private bool coll = false;
 
 
     void Start()
     {
+        sinCenterX = transform.position.x;
         rb = GetComponent<Rigidbody>();
         //groundSpawner = GameObject.FindGameObjectWithTag("GroundSpawner");
         //groundSpawner = GameObject.FindAnyObjectByType<GroundSpawner>();
@@ -33,34 +36,34 @@ public class Enemy : MonoBehaviour
         //scriptUI = Canvas.GetComponent<UI>();
         player = GameObject.FindWithTag("Player"); // Asegúrate de que el jugador tenga el tag "Player"
         isMovingRight = Random.Range(0, 2) == 0; // Determina la dirección inicial aleatoriamente
-        frequency = Random.Range(0.1f, 0.2f); // Frecuencia aleatoria
-        amplitude = Random.Range(0.1f, 0.2f); // Amplitud aleatoria
+        //frequency = Random.Range(0.1f, 0.2f); // Frecuencia aleatoria
+        //amplitude = Random.Range(0.1f, 0.2f); // Amplitud aleatoria
         spawnInterval = Random.Range(2.0f, 5.0f); // Intervalo de aparición aleatorio
-        timeSinceLastSpawn = 0;
+        //timeSinceLastSpawn = 0;
     }
 
     void Update()
     {
 
-        if (player == null)
-        {
-            return; // Si el jugador ya no existe, no se mueve
-        }
+        //if (player == null)
+        //{
+        //    return; // Si el jugador ya no existe, no se mueve
+        //}
 
-        // Mover el enemigo hacia el jugador en dirección contraria
-        Vector3 movement = Vector3.back * speed * Time.deltaTime;
-        rb.velocity = movement;
+        //// Mover el enemigo hacia el jugador en dirección contraria
+        //Vector3 movement = Vector3.back * speed * Time.deltaTime;
+        //rb.velocity = movement;
 
         // Mover el enemigo de lado a lado utilizando una ecuación senoidal
-        float offsetX = amplitude * Mathf.Sin(frequency * Time.time);
-        if (isMovingRight)
-        {
-            rb.position += new Vector3(offsetX, 0, 0);
-        }
-        else
-        {
-            rb.position -= new Vector3(offsetX, 0, 0);
-        }
+        //float offsetX = amplitude * Mathf.Sin(frequency * Time.time);
+        //if (isMovingRight)
+        //{
+        //    rb.position += new Vector3(offsetX, 0, 0);
+        //}
+        //else
+        //{
+        //    rb.position -= new Vector3(offsetX, 0, 0);
+        //}
 
         //// Mover el enemigo hacia el jugador en dirección contraria
         //Vector3 movement = Vector3.back * speed * Time.deltaTime;
@@ -85,6 +88,19 @@ public class Enemy : MonoBehaviour
         //    timeSinceLastSpawn = 0;
         //    isMovingRight = !isMovingRight;
         //}
+    }
+
+    private void FixedUpdate()
+    {
+        //Vector3 pos = transform.position;
+
+        //float sin = Mathf.Sin(pos.z * frequency) * amplitude;
+        //pos.x = sinCenterX + sin;
+        //transform.position = pos;
+        Vector3 velocity = rb.velocity;
+        float sin = Mathf.Sin(transform.position.z * frequency) * amplitude;
+        velocity.x = sinCenterX + sin;
+        rb.velocity = velocity;
     }
 
     private void OnTriggerEnter(Collider other)
