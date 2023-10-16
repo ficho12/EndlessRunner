@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject player;
     public GameObject enemyPrefab;
+
+    private GameObject player;
     private GroundSpawner groundSpawner;
-    PlayerMovement playerMovement;
-
-    float sinCenterX;
-
-    GameObject Canvas;
-    UI scriptUI;
+    private PlayerMovement playerMovement;
+    private GameObject Canvas;
+    private UI scriptUI;
     private bool trig = false;
-
-    public float frequency;
-    public float amplitude;
-    private bool isMovingRight;
-    public float spawnInterval;
+    private float sinCenterX;
+    private float frequency;
+    private float amplitude;
     private Rigidbody rb;
     private bool coll = false;
 
@@ -28,13 +24,14 @@ public class Enemy : MonoBehaviour
         sinCenterX = transform.position.x;
         rb = GetComponent<Rigidbody>();
         playerMovement = GameObject.FindObjectOfType<PlayerMovement>();
-        player = GameObject.FindWithTag("Player"); // Asegúrate de que el jugador tenga el tag "Player"
-        isMovingRight = Random.Range(0, 2) == 0; // Determina la dirección inicial aleatoriamente
-        //frequency = Random.Range(0.1f, 0.2f); // Frecuencia aleatoria
-        //amplitude = Random.Range(0.1f, 0.2f); // Amplitud aleatoria
-        spawnInterval = Random.Range(2.0f, 5.0f); // Intervalo de aparición aleatorio
+        player = GameObject.FindWithTag("Player");
+        frequency = Random.Range(0.2f, 2f); // Frecuencia aleatoria
+        amplitude = Random.Range(2f, 30f); // Amplitud aleatoria
     }
 
+    /*
+     * Se crea el movimiento del enemigo de forma sinusoidal, se le aplica la velocidad a su RigidBody
+     */
     private void FixedUpdate()
     {
         Vector3 velocity = rb.velocity;
@@ -43,30 +40,38 @@ public class Enemy : MonoBehaviour
         rb.velocity = velocity;
     }
 
+    /*
+     * Si el jugador ha superado al enemigo sin chocar se aumenta un punto scriptUI.addScore()
+     */
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))  // Comprobación de la colisión
         {
-            if((scriptUI != null) && (trig == false))
+            if((scriptUI != null) && (trig == false))   // Para evitar que entre más de una vez se activa un boolean trig
             {
-                scriptUI.addScore();
+                scriptUI.AddScore();
                 Debug.Log("OnCollisionEnter addScore");
                 trig = true;
-                Invoke("SelfDestruct", 3);
+                Invoke("SelfDestruct", 3);  // En 3 segundos se llama a la función que destruye el enemigo. Se tiene 3 segundos para que el Enemigo se encuentre fuera de pantalla en ese momento.
+                // Se podría crear una variable pública para ajustar el tiempo.
             }
         }
     }
 
+    /*
+     * Si colisiona con el jugador se realiza el proceso de finalización de partida scriptUI.changeUItoEndLevel()
+     */
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.name.Equals("Player") && (scriptUI != null) && (coll == false))
         {
-            scriptUI.changeUItoEndLevel();
+            scriptUI.ChangeUItoEndLevel();
             coll = true;
         }
     }
 
-    public void SelfDestruct()
+    private void SelfDestruct()
     {
         Destroy(this);
     }

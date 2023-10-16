@@ -150,9 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1601844876751890292, guid: 024dda12842f70c44af8dd07232085dc, type: 3}
   enemyPrefab: {fileID: 5397132111415439339}
-  speed: 5
   frequency: 1
-  amplitude: 20
+  amplitude: 10
   spawnInterval: 1
 --- !u!114 &7349424936893654947
 MonoBehaviour:

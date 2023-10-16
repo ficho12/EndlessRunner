@@ -19,31 +19,37 @@ public class UI : MonoBehaviour
         timeText = transform.GetChild(0).GetComponent<TextMeshProUGUI>();      //Time Child(0)
         scoreText = transform.GetChild(1).GetComponent<TextMeshProUGUI>();      //Score Child(1)
         scoreText.text = "Score: " + score.ToString();
-        //transform.GetChild(2).gameObject.SetActive(false);
-        //transform.GetChild(3).gameObject.SetActive(false);
     }
 
     // Update is called once per frame
+    /*
+     * Se actualiza el tiempo y se castea a int para representarlo en la interfaz
+     */
     void Update()
     {
         timer += Time.deltaTime;
-        seconds = (int)timer % 60;
+        seconds = (int)timer;
         timeText.text = "Time: " + seconds.ToString() + " s";
     }
 
-    public void addScore()
+    public void AddScore()
     {
         score++;
         scoreText.text = "Score: " + score.ToString();
     }
 
-    public void subtractScore()
+    public void SubtractScore()
     {
         score -= 2; 
         scoreText.text = "Score: " + score.ToString();
     }
 
-    public void changeUItoEndLevel()
+    /*
+     * Se utiliza un solo Canvas para todos los menús por lo cual se activan y desactivan los hijos necesarios para el cambio de menú.
+     * Además, se pausan las físicas para que no se siga ejecutando en el fondo mientras se está en el menú.
+     * (La pausa de físicas no afecta al funcionamiento de la interfaz)
+     */
+    public void ChangeUItoEndLevel()
     {
         transform.GetChild(0).gameObject.SetActive(false);
         transform.GetChild(1).gameObject.SetActive(false);
@@ -52,18 +58,21 @@ public class UI : MonoBehaviour
         transform.GetChild(4).gameObject.SetActive(true);
         transform.GetChild(5).gameObject.SetActive(true);
         transform.GetChild(6).gameObject.SetActive(true);
-        Time.timeScale = 0; //Pause
+        Time.timeScale = 0; //Pause: true
         transform.GetChild(3).gameObject.GetComponent<TextMeshProUGUI>().text = "Time\n" + seconds.ToString() + " s";
         transform.GetChild(2).gameObject.GetComponent<TextMeshProUGUI>().text = "Score\n" + score.ToString();
     }
 
-    public void restart()
+    public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Time.timeScale = 1; //Pause
+        Time.timeScale = 1; //Pause: false
     }
 
-    public void exit() 
+    /*
+     * Funcionalidad para cerrar la ventana de juego del editor, si está compilado cierra la aplicación de manera normal
+     */
+    public void Exit() 
     {
         // save any game data here
         #if UNITY_EDITOR
